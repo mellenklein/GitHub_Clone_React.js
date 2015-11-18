@@ -1,12 +1,18 @@
-import React, { PropTypes } from 'react'
+import React, { PropTypes } from 'react';
+import jQuery from 'jquery';
 
-function Repo(props){
-  return (
-    <li className="repo">
-      <p>{props.title}</p>
-      <p>{props.created_at}</p>
-    </li>
-  )
+class Repo extends React.Component {
+  render () {
+    return (
+      <article className="project">
+        <header>
+          <a href="">Project Name</a>
+        </header>
+        <time className="time">Updated today</time>
+      </article>
+    )
+  }
 }
 
+Repo
 export default Repo;
