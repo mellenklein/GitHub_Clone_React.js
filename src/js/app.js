@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import jQuery from 'jquery';
+import _ from 'lodash';
+var moment = require('moment');
+moment().format();
 
+import $ from './token';
 import Header from './header';
+import Sidebar from './sidebar';
 import RepoList from './repo_list';
 import Counter from './counter';
 
@@ -13,11 +18,14 @@ class App extends React.Component {
 
     //once we are done with that.. lets do our own stuff
     this.state = {
+      hasLoaded: false,
+      profile: {},
       repos: []  //initial state: an empty array
-    }
+    };
   }
   componentDidMount() {
     this.getRepos();
+    this.getProfile();
 
     // setInterval(() => {
     //   this.getRepos();
@@ -31,16 +39,28 @@ class App extends React.Component {
               hasLoaded: true,
               repos: response
             });
-          })
+          });
+  }
+  getProfile() {
+    jQuery.ajax('https://api.github.com/users/mellenklein')
+          .then( response => {
+            this.setState({
+              hasLoaded: true,
+              profile: response
+            });
+          });
   }
 
   render () {
     return (
-      <main>
+      <div className="wrapper">
         <Header />
-        <RepoList repos={this.state.repos}/>
-        <Counter />
+      <main>
+        <Sidebar profile={this.state.profile}/>
+        <RepoList repos={this.state.repos}
+                  hasLoaded={this.state.hasLoaded}/>
       </main>
+      </div>
     )
   }
 }

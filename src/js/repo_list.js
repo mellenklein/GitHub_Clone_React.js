@@ -1,25 +1,26 @@
 import React from 'react'
+import jQuery from 'jquery';
+var moment = require('moment');
+moment().format();
+
 import Repo from './repo'
-// import jQuery from 'jquery'
+import $ from './token';
 
 class RepoList extends React.Component { //new instance of List view
   constructor(props) {
     super(props);
-
-    this.state = {
-      repos: [] //create an empty array to store the repos
-    }
   }
 
 
   render(){
     //return content of each repo
     let repos = this.props.repos.map(repo => {
-      return <Repo/>
+      return <Repo key={repo.id}
+                   repo={repo}/>
     });
     return (
       <section className="projects">
-        Here's a repo! {repos}
+        {repos}
       </section>
     )
   }
